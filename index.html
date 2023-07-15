@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratioteur de Nolan</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        img {
+            border-radius: 50px;
+            max-width: 70%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #ratioButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #numberDisplay {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Style pour le plein écran */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        /* Style pour cacher l'image */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>à 100 ratio = photo de pieds </h1>
+    <img src="./nolan.jpg" alt="">
+    <input type="button" value="RATIO" id="ratioButton">
+    <p id="numberDisplay">0</p>
+    <img id="fullscreenImage" class="hidden" src="https://2.bp.blogspot.com/-SWghB8U-U2M/WRsJf2ZbCFI/AAAAAAAAFjg/-mv8GzqfKjMRcC_1Ha-z_RMCILDqRgRGwCLcB/s1600/11.jpeg" alt="">
+    <div id="player"></div>
+
+    <script>
+        // Récupérer le bouton, l'élément d'affichage du nombre et l'image en plein écran
+        var ratioButton = document.getElementById('ratioButton');
+        var numberDisplay = document.getElementById('numberDisplay');
+        var fullscreenImage = document.getElementById('fullscreenImage');
+        var count = 0;
+
+        // Fonction pour vérifier si le nombre atteint 100
+        function checkCount() {
+            if (count === 100) {
+                document.querySelector('h1').style.display = 'none';
+                document.querySelector('img').style.display = 'none';
+                ratioButton.style.display = 'none';
+                numberDisplay.style.display = 'none';
+
+                // Création d'un lecteur YouTube
+                var player = new YT.Player('player', {
+                    height: '0',
+                    width: '0',
+                    videoId: 'PkjPN6jee8w', // Remplacez par l'ID de la vidéo YouTube que vous souhaitez lire
+                    playerVars: {
+                        autoplay: 1, // Lecture automatique
+                        controls: 0, // Masquer les contrôles du lecteur
+                        showinfo: 0, // Masquer les informations de la vidéo
+                        modestbranding: 1 // Masquer le logo YouTube
+                    },
+                    events: {
+                        onReady: onPlayerReady
+                    }
+                });
+
+                enterFullscreen();
+            } else if (count === 50) {
+                ouvrirPages();
+            }
+        }
+
+        // Fonction pour incrémenter le nombre et mettre à jour l'affichage
+        function incrementCount() {
+            count++;
+            numberDisplay.textContent = count;
+            checkCount();
+        }
+
+        // Ajouter un écouteur d'événement au bouton
+        ratioButton.addEventListener('click', incrementCount);
+
+        // Fonction pour ouvrir les pages à partir de 50
+        function ouvrirPages() {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        }
+
+        // Fonction pour afficher l'image en plein écran
+        function enterFullscreen() {
+            document.body.classList.add('fullscreen');
+            fullscreenImage.classList.remove('hidden');
+        }
+
+        // API YouTube Iframe Player
+        var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Fonction appelée lorsque l'API est chargée
+        function onYouTubeIframeAPIReady() {
+            // Rien à faire ici, l'API est chargée
+        }
+
+        // Fonction appelée lorsque le lecteur est prêt
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+    </script>
+</body>
+</html>
