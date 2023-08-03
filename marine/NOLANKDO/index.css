@@ -1,0 +1,12 @@
+/* Style pour le conteneur de l'image */
+.image-container {
+    border-radius: 50px;
+    max-width: 100px; /* Réduire la largeur du conteneur à 100px */
+    height: auto;
+    margin-bottom: 20px;
+    background-image: url('./kdo.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
